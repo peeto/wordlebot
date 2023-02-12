@@ -7,7 +7,9 @@ The New York Times has a game called Wordle that gives six chances to guess a fi
 
 ## Status and usage
 
-This is currently a work in progress however the SQL is currently working. Run wordle.sql in MySQL and import wordlewords.csv into the 'words' table to get it working.
+This is currently a work in progress however the SQL is currently working. The model and view are tested as working but I need to refactor the controller to place nice with Composer, Laravel, etc.
+
+Run wordle.sql in MySQL and import wordlewords.csv into the 'words' table to get it working.
 
 An example of using it is as follows:
 
@@ -28,5 +30,3 @@ and l3 = 'a'
 and l4 = 'd'
 and l5 = 'y';
 ```
-
-This can really only be used by someone proficient in SQL however this will change.
