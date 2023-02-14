@@ -70,7 +70,7 @@ if (isset($options)
             <select id="wordleaddword" size="7">
             </select>
             &nbsp;<input type="button" onclick="wordleAddWord()" value="Add" />
-            &nbsp;<input type="button" onclick="wordleSortWords()" value="Sort" />
+            &nbsp;<input type="button" id="wordleSortButton" onclick="wordleSortWords()" value="Sort" />
         </div>
     </div>
     
@@ -183,9 +183,11 @@ function worldChangeLetterState(e) {
 }
 
 function wordleSortWords() {
+    $('#wordleSortButton').val('Wait...');
     $('#wordleaddword').html($('#wordleaddword option').sort(function (a, b) {
         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
     }));
+    $('#wordleSortButton').val('Sort');
 }
 
 function wordleRemoveWord(e) {
