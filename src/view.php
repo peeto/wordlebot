@@ -1,4 +1,19 @@
+<?php
+$routepath = '?route=search';
+
+if (isset($options) 
+        && isset($options['routepath'])) {
+    $routepath = $options['routepath'];
+}
+
+if (isset($options) 
+        && isset($options['includejquery']) 
+        && $options['includejquery']) {
+?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<?php
+}
+?>
 <style type="text/css">
     #wordlebot #wordleaddword {
         width: 10em;
@@ -44,8 +59,6 @@
 </style>
 <div id="wordlebot">
     
-    <h2>wordlebot</h2>
-    
     <div id="wordleui">
         
     </div>
@@ -65,7 +78,7 @@
 <script language="javascript">
 
 function wordleAddWord() {
-    var value = $("#wordleaddword option:selected");
+    var value = $('#wordleaddword option:selected');
     if (value && value.text()) {
         var text = value.text();
         var div = $('<div>', {
@@ -134,7 +147,7 @@ function wordleLoadWords() {
     if (wordleAjax && wordleAjax.abort) wordleAjax.abort();
     var data = wordleGetData();
     wordleAjax = $.ajax({
-        'url': "?route=search",
+        'url': '<?= $routepath ?>',
         'type' : 'POST',
         'data': JSON.stringify(data),
         'success': function(result){
@@ -180,4 +193,3 @@ $(function() {
 });
 
 </script>
-

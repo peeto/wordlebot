@@ -1,8 +1,8 @@
 <?php
 
-namespace wordlebot;
+namespace peeto\WordleBot;
 
-class db {
+class Db {
     
     protected $db;
     protected $params;

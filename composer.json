@@ -1,0 +1,20 @@
+{
+    "name": "peeto/wordle-bot",
+    "description": "AI that plays NYT Wordle",
+    "authors": [
+        {
+            "name": "peeto",
+            "email": "petersenc@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6",
+        "mysqli": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "peeto\\WordleBot\\": "src/"
+        }
+    }
+}

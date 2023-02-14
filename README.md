@@ -1,4 +1,4 @@
-# wordlebot
+# WordleBot
 A bot that can assist with playing NYT Wordle
 
 ## About
@@ -7,26 +7,6 @@ The New York Times has a game called Wordle that gives six chances to guess a fi
 
 ## Status and usage
 
-This is currently a work in progress however the SQL is currently working. The model and view are tested as working but I need to refactor the controller to place nice with Composer, Laravel, etc.
+Set up a MySQL database using sql/wordle.sql and sql/words.sql
 
-Run wordle.sql in MySQL and import wordlewords.csv into the 'words' table to get it working.
-
-An example of using it is as follows:
-
-```
-select * 
-from view_wordle_word_stats
-where
-word like '%a%'
-and word like '%e%'
-and word not like '%r%'
-and word not like '%o%'
-and word not like '%s%'
-and word not like '%n%'
-and word not like '%t%'
-and word not like '%l%'
-and l2 = 'e'
-and l3 = 'a'
-and l4 = 'd'
-and l5 = 'y';
-```
+See example.controller.php for an example for to use WordleBot.

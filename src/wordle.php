@@ -1,15 +1,15 @@
 <?php
 
-namespace wordlebot;
+namespace peeto\WordleBot;
 
-require_once 'db.php';
+use peeto\WordleBot\Db;
 
-class wordlebot {
+class WordleBot {
     
     protected $db;
     
     function __construct(array $config) {
-        $this->db = new db( $config );
+        $this->db = new Db( $config );
     }
     
     public function getLetterStats() {
@@ -23,8 +23,8 @@ class wordlebot {
         return $this->db->doSearch();
     }
     
-    public function render() {
-        include dirname( dirname(__FILE__) ) . '/views/view.php';
+    public function render(array $options = []) {
+        include 'view.php';
     }
     
 }
