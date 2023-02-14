@@ -183,11 +183,11 @@ function worldChangeLetterState(e) {
 }
 
 function wordleSortWords() {
-    $('#wordleSortButton').val('Wait...');
+    $('#wordleSortButton').attr('value', 'Wait...');
     $('#wordleaddword').html($('#wordleaddword option').sort(function (a, b) {
         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
     }));
-    $('#wordleSortButton').val('Sort');
+    $('#wordleSortButton').attr('value', 'Sort');
 }
 
 function wordleRemoveWord(e) {
