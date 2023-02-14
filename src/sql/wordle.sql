@@ -116,13 +116,13 @@ with `dl` as (select `wl`.`word_id` AS `word_id`,`wl`.`letter_id` AS `letter_id`
 from (`word_letters` `wl` 
 join `words` `w` on((`w`.`id` = `wl`.`word_id`))) 
 where (`w`.`word_length` = 5) 
-group by `wl`.`word_id`,`wl`.`letter_id`), 
-`usage` as (select `dl`.`word_id` AS `word_id`,sum(`vwls`.`usage`) AS `usage` 
+group by `wl`.`word_id`,`wl`.`letter_id`),
+`lusage` as (select `dl`.`word_id` AS `word_id`,sum(`vwls`.`usage`) AS `wusage`
 from (`dl` 
 join `view_wordle_letter_stats` `vwls` on((`vwls`.`letter_id` = `dl`.`letter_id`))) 
 group by `dl`.`word_id` 
 order by sum(`vwls`.`usage`) desc) 
-select `vww`.`id` AS `id`,`vww`.`word` AS `word`,`vww`.`l1` AS `l1`,`vww`.`l2` AS `l2`,`vww`.`l3` AS `l3`,`vww`.`l4` AS `l4`,`vww`.`l5` AS `l5`,`vww`.`l1id` AS `l1id`,`vww`.`l2id` AS `l2id`,`vww`.`l3id` AS `l3id`,`vww`.`l4id` AS `l4id`,`vww`.`l5id` AS `l5id`,`usage`.`usage` AS `usage` 
-from (`view_wordle_words` `vww` 
-join `usage` on((`usage`.`word_id` = `vww`.`id`))) 
-order by `usage`.`usage` desc;
+select `vww`.`id` AS `id`,`vww`.`word` AS `word`,`vww`.`l1` AS `l1`,`vww`.`l2` AS `l2`,`vww`.`l3` AS `l3`,`vww`.`l4` AS `l4`,`vww`.`l5` AS `l5`,`vww`.`l1id` AS `l1id`,`vww`.`l2id` AS `l2id`,`vww`.`l3id` AS `l3id`,`vww`.`l4id` AS `l4id`,`vww`.`l5id` AS `l5id`,`lusage`.`wusage` AS `usage`
+from (`view_wordle_words` `vww`
+join `lusage` on((`lusage`.`word_id` = `vww`.`id`)))
+order by `lusage`.`wusage` desc;
