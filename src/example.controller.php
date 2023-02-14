@@ -2,10 +2,10 @@
 
 use peeto\WordleBot;
 
-$wordle = new WordleBot([
+$wordle = new WordleBot\WordleBot([
     'host'     => 'localhost',
-    'username' => 'chris',
-    'password' => 'eon33flux',
+    'username' => 'username',
+    'password' => 'password',
     'database' => 'wordle'
 ]);
 

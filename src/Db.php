@@ -27,7 +27,7 @@ class Db {
     }
     
     protected function getSearchQuery(): string {
-        return "SELECT word
+        return "SELECT UCASE(word) AS word
             FROM view_wordle_word_stats
             WHERE 1";
     }
@@ -43,20 +43,20 @@ class Db {
         switch ($type) {
             case 'missing':
                 $this->params[] = " AND word NOT LIKE '%" .
-                    $this->db->real_escape_string($letter) .
+                    $this->db->real_escape_string(strtolower($letter)) .
                     "%'";
                 break;
             case 'found':
                 $this->params[] = " AND l" . $pos . " = '" .
-                    $this->db->real_escape_string($letter) .
+                    $this->db->real_escape_string(strtolower($letter)) .
                     "'";
                 break;
             case 'has':
                 $this->params[] = " AND word LIKE '%" .
-                    $this->db->real_escape_string($letter) .
+                    $this->db->real_escape_string(strtolower($letter)) .
                     "%'";
                 $this->params[] = " AND l" . $pos . " <> '" .
-                    $this->db->real_escape_string($letter) .
+                    $this->db->real_escape_string(strtolower($letter)) .
                     "'";
                 break;
             default:
