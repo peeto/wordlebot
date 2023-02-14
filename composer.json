@@ -10,7 +10,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.6",
-        "mysqli": "*"
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
