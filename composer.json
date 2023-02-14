@@ -1,6 +1,7 @@
 {
     "name": "peeto/wordle-bot",
     "description": "AI that plays NYT Wordle",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "peeto",
