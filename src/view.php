@@ -69,8 +69,8 @@ if (isset($options)
         <div id="wordlebotaddui" class="addui" style="display: none">
             <select id="wordleaddword" size="7">
             </select>
-            &nbsp;
-            <input type="button" onclick="wordleAddWord()" value="Add" />
+            &nbsp;<input type="button" onclick="wordleAddWord()" value="Add" />
+            &nbsp;<input type="button" onclick="wordleSortWords()" value="Sort" />
         </div>
     </div>
     
@@ -180,6 +180,12 @@ function worldChangeLetterState(e) {
     }
     wordleLoadWords();
 
+}
+
+function wordleSortWords() {
+    $('#wordleaddword').html($('#wordleaddword option').sort(function (a, b) {
+        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+    }));
 }
 
 function wordleRemoveWord(e) {
