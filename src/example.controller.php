@@ -2,7 +2,7 @@
 
 use peeto\WordleBot;
 
-$wordle = new Wordlebot([
+$wordle = new WordleBot([
     'host'     => 'localhost',
     'username' => 'chris',
     'password' => 'eon33flux',
