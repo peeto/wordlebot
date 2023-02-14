@@ -7,6 +7,6 @@ The New York Times has a game called Wordle that gives six chances to guess a fi
 
 ## Status and usage
 
-Set up a MySQL database using sql/wordle.sql and sql/words.sql
+Set up a MySQL database using sql/wordle.sql and sql/wordlewords.sql
 
 See example.controller.php for an example on how to use WordleBot.
