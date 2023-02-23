@@ -6,6 +6,7 @@ class Db {
     
     protected $db;
     protected $params;
+    protected $hasLetters;
     
     function __construct(array $config) {
         $this->db = new \mysqli(
@@ -14,6 +15,7 @@ class Db {
                 $config['password'],
                 $config['database']);
         $this->params = [];
+        $this->hasLetters = [];
     }
     
     public function getLetterStats(): array {
@@ -32,8 +34,14 @@ class Db {
             WHERE 1";
     }
     
+    protected function getSortQuery(bool $sort) {
+        if ($sort) return " ORDER BY word";
+        return "";
+    }
+    
     public function clearSearchParameters() {
         $this->params = [];
+        $this->hasLetters = [];
     }
     
     public function addSearchParameter(string $type, string $letter, int $position) {
@@ -42,14 +50,17 @@ class Db {
         
         switch ($type) {
             case 'missing':
-                $this->params[] = " AND word NOT LIKE '%" .
-                    $this->db->real_escape_string(strtolower($letter)) .
-                    "%'";
+                if (!in_array($letter, $this->hasLetters)) {
+                    $this->params[] = " AND word NOT LIKE '%" .
+                        $this->db->real_escape_string(strtolower($letter)) .
+                        "%'";
+                }
                 break;
             case 'found':
                 $this->params[] = " AND l" . $pos . " = '" .
                     $this->db->real_escape_string(strtolower($letter)) .
                     "'";
+                $this->hasLetters[] = $letter;
                 break;
             case 'has':
                 $this->params[] = " AND word LIKE '%" .
@@ -58,6 +69,7 @@ class Db {
                 $this->params[] = " AND l" . $pos . " <> '" .
                     $this->db->real_escape_string(strtolower($letter)) .
                     "'";
+                $this->hasLetters[] = $letter;
                 break;
             default:
                 break;
@@ -66,12 +78,14 @@ class Db {
         $this->params = array_unique($this->params);
     }
     
-    public function doSearch(): array {
+    public function doSearch(bool $sort): array {
         $sql = $this->getSearchQuery();
         
         foreach ($this->params as $param) {
             $sql .= $param;
         }
+        
+        $sql .= $this->getSearchQuery($sort);
         
         $sql .= ";";
         

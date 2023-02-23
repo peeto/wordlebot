@@ -17,10 +17,10 @@ class WordleBot {
     }
     
     public function search( $data = []) {
-        foreach ($data as $param) {
+        foreach ($data['letters'] as $param) {
             $this->db->addSearchParameter($param['state'], $param['letter'], $param['position']);
         }
-        return $this->db->doSearch();
+        return $this->db->doSearch($data['sort']=='1');
     }
     
     public function render(array $options = []) {

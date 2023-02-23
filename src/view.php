@@ -70,7 +70,7 @@ if (isset($options)
             <select id="wordleaddword" size="7">
             </select>
             &nbsp;<input type="button" onclick="wordleAddWord()" value="Add" />
-            &nbsp;<input type="button" id="wordleSortButton" onclick="wordleSortWords()" value="Sort" />
+            &nbsp;Sort <input type="checkbox" id="wordleSort" onchange="wordleLoadWords()" value="1" />
         </div>
     </div>
     
@@ -112,30 +112,33 @@ function wordleLoadingWords() {
 
 function wordleGetData() {
     var data = [];
+    data['letters'] = [];
     
     $('#wordleui .wordleletter').each(function() {
         var letter = $(this);
         
         if (letter.hasClass('missing')) {
-            data[data.length] = {
+            data[data['letters'].length] = {
                 'letter': letter.text(),
                 'state': 'missing',
                 'position': letter.data('position')
             };
         } else if (letter.hasClass('has')) {
-            data[data.length] = {
+            data[data['letters'].length] = {
                 'letter': letter.text(),
                 'state': 'has',
                 'position': letter.data('position')
             };
         } else if (letter.hasClass('found')) {
-            data[data.length] = {
+            data[data['letters'].length] = {
                 'letter': letter.text(),
                 'state': 'found',
                 'position': letter.data('position')
             };
         }
     });
+    
+    data['sort'] = ${'#wordleSort'}.is(':checked') ? '1' : '';
     
     return data;
 }
@@ -180,14 +183,6 @@ function worldChangeLetterState(e) {
     }
     wordleLoadWords();
 
-}
-
-function wordleSortWords() {
-    $('#wordleSortButton').attr('value', 'Wait...');
-    $('#wordleaddword').html($('#wordleaddword option').sort(function (a, b) {
-        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-    }));
-    $('#wordleSortButton').attr('value', 'Sort');
 }
 
 function wordleRemoveWord(e) {
