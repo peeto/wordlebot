@@ -138,7 +138,7 @@ function wordleGetData() {
         }
     });
     
-    data['sort'] = ${'#wordleSort'}.is(':checked') ? '1' : '';
+    data['sort'] = $('#wordleSort').is(':checked') ? '1' : '';
     
     return data;
 }
