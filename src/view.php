@@ -71,7 +71,8 @@ if (isset($options)
             </select>
             <span class="wordleControls">
                 &nbsp;<input type="button" onclick="wordleAddWord()" value="Add" />
-                &nbsp;Sort&nbsp;<input type="checkbox" id="wordleSort" onchange="wordleLoadWords()" value="1" />
+                &nbsp;
+                <label title="Sort alphabetically">Sort&nbsp;<input type="checkbox" id="wordleSort" onchange="wordleLoadWords()" value="1" /></label>
             </span>
         </div>
     </div>
@@ -141,6 +142,8 @@ function wordleGetData() {
     });
     
     data['sort'] = $('#wordleSort').is(':checked') ? '1' : '';
+    
+    console.log(data);
     
     return data;
 }
