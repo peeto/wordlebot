@@ -120,19 +120,19 @@ function wordleGetData() {
         var letter = $(this);
         
         if (letter.hasClass('missing')) {
-            data[data['letters'].length] = {
+            data['letters'.length] = {
                 'letter': letter.text(),
                 'state': 'missing',
                 'position': letter.data('position')
             };
         } else if (letter.hasClass('has')) {
-            data[data['letters'].length] = {
+            data['letters'.length] = {
                 'letter': letter.text(),
                 'state': 'has',
                 'position': letter.data('position')
             };
         } else if (letter.hasClass('found')) {
-            data[data['letters'].length] = {
+            data['letters'.length] = {
                 'letter': letter.text(),
                 'state': 'found',
                 'position': letter.data('position')
