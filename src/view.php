@@ -114,7 +114,7 @@ function wordleLoadingWords() {
 }
 
 function wordleGetData() {
-    var data = [];
+    var data = {};
     data['letters'] = [];
     
     $('#wordleui .wordleletter').each(function() {
