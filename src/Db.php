@@ -34,7 +34,7 @@ class Db {
             WHERE 1";
     }
     
-    protected function getSortQuery(bool $sort) {
+    protected function getSortQuery(bool $sort): string {
         if ($sort) return " ORDER BY word";
         return "";
     }
@@ -85,7 +85,7 @@ class Db {
             $sql .= $param;
         }
         
-        $sql .= $this->getSearchQuery($sort);
+        $sql .= $this->getSortQuery($sort);
         
         $sql .= ";";
         

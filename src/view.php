@@ -18,7 +18,7 @@ if (isset($options)
     #wordlebot #wordleaddword {
         width: 10em;
     }
-    #wordlebot .selectwords .addui input {
+    #wordlebot .selectwords .addui .wordleControls {
         vertical-align: top;
     }
     
@@ -69,8 +69,10 @@ if (isset($options)
         <div id="wordlebotaddui" class="addui" style="display: none">
             <select id="wordleaddword" size="7">
             </select>
-            &nbsp;<input type="button" onclick="wordleAddWord()" value="Add" />
-            &nbsp;Sort <input type="checkbox" id="wordleSort" onchange="wordleLoadWords()" value="1" />
+            <span class="wordleControls">
+                &nbsp;<input type="button" onclick="wordleAddWord()" value="Add" />
+                &nbsp;Sort&nbsp;<input type="checkbox" id="wordleSort" onchange="wordleLoadWords()" value="1" />
+            </span>
         </div>
     </div>
     
