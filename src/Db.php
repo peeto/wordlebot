@@ -6,7 +6,6 @@ class Db {
     
     protected $db;
     protected $params;
-    protected $hasLetters;
     
     function __construct(array $config) {
         $this->db = new \mysqli(
@@ -15,7 +14,6 @@ class Db {
                 $config['password'],
                 $config['database']);
         $this->params = [];
-        $this->hasLetters = [];
     }
     
     public function getLetterStats(): array {
@@ -29,64 +27,94 @@ class Db {
     }
     
     protected function getSearchQuery(): string {
-        return "SELECT UCASE(word) AS word
-            FROM view_wordle_word_stats
+        return "SELECT word
+            FROM wordle_words
             WHERE 1";
     }
     
     protected function getSortQuery(bool $sort): string {
-        if ($sort) return " ORDER BY word";
-        return "";
+        $sql = '';
+        if ($sort) {
+            $sql = " ORDER BY word";
+        } else {
+            $sql = " ORDER BY `usage` DESC";
+        }
+        return $sql;
     }
     
     public function clearSearchParameters() {
         $this->params = [];
-        $this->hasLetters = [];
     }
     
-    public function addSearchParameter(string $type, string $letter, int $position) {
+    protected function getParameterType(string $type): string {
+        switch ($type) {
+            case 'missing':
+            case 'found':
+            case 'has':
+                return $type;
+                break;
+            default:
+                return '';
+                break;
+        }
+    }
+    
+    protected function getParameterPosition(int $position): int {
         $pos = (int)$position;
         if ($pos < 1 || $pos > 5) $pos = 1;
         
-        switch ($type) {
-            case 'missing':
-                if (!in_array($letter, $this->hasLetters)) {
-                    $this->params[] = " AND word NOT LIKE '%" .
-                        $this->db->real_escape_string(strtolower($letter)) .
-                        "%'";
+        return $pos;
+    }
+    
+    public function addSearchParameter(string $type, string $letter, int $position, string $word): void {
+        $this->params[strtoupper($letter)][] = [
+            'type' => $this->getParameterType($type),
+            'position' => $this->getParameterPosition($position),
+            'word' => strtoupper($word)
+        ];
+    }
+    
+    protected function getParameterQuery(): string {
+        $sql = [];
+        foreach($this->params as $letter => $data) {
+            $count = 0;
+            $letter = $this->db->real_escape_string($letter);
+            
+            foreach($data as $occurance) {
+                if ($occurance['type']=='found' || $occurance['type']=='has') {
+                    $count++;
                 }
-                break;
-            case 'found':
-                $this->params[] = " AND l" . $pos . " = '" .
-                    $this->db->real_escape_string(strtolower($letter)) .
-                    "'";
-                $this->hasLetters[] = $letter;
-                break;
-            case 'has':
-                $this->params[] = " AND word LIKE '%" .
-                    $this->db->real_escape_string(strtolower($letter)) .
+            }
+            
+            if (!$count) {
+                $sql[] = " AND word NOT LIKE '%" .
+                    $letter .
                     "%'";
-                $this->params[] = " AND l" . $pos . " <> '" .
-                    $this->db->real_escape_string(strtolower($letter)) .
-                    "'";
-                $this->hasLetters[] = $letter;
-                break;
-            default:
-                break;
+            } else {
+                foreach($data as $occurance) {
+                    if ($occurance['type']=='found') {
+                        $sql[] = " AND l" . $occurance['position'] . " = '" .
+                            $letter . "'";
+                            //. " AND l" . $occurance['position'] . "count >= " .
+                            // $count
+                    } else {
+                        $sql[] = " AND word LIKE '%" . $letter . "%'";
+                        $sql[] = " AND l" . $occurance['position'] . " <> '" .
+                            $letter . "'";
+                    }
+                }
+            }
         }
+        $sql = array_unique($sql);
         
-        $this->params = array_unique($this->params);
+        return implode($sql);
     }
     
     public function doSearch(bool $sort): array {
+        
         $sql = $this->getSearchQuery();
-        
-        foreach ($this->params as $param) {
-            $sql .= $param;
-        }
-        
+        $sql .= $this->getParameterQuery();
         $sql .= $this->getSortQuery($sort);
-        
         $sql .= ";";
         
         if ($results = $this->db->query($sql)) {

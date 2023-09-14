@@ -2,7 +2,9 @@
 
 $config = [
     'host'     => 'localhost',
-    'username' => 'username',
-    'password' => 'password',
-    'database' => 'wordlebot'
+    'username' => 'wordlebot',
+    'password' => 'wordlebot',
+    'database' => 'wordlebot',
+    'id'       => 'wordlebot',
+    'routeurl' => '/search.php'
 ];
