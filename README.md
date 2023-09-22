@@ -12,7 +12,9 @@ The premise is that wordlebot understaands words, the letters that make up words
 Set up a MySQL database using sql/wordle.sql and sql/wordlewords.sql
 
 After adding the words to the database, run the following SQL:
+```
 CALL `rebuild_wordle_words`();
+```
 
 Install using composer:
 ```
