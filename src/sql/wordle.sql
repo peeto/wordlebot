@@ -305,7 +305,20 @@ order by
 
 -- Procedures
 
-DROP procedure IF EXISTS `rebuild_wordle_words`;
+DROP PROCEDURE IF EXISTS `truncate_words`;
+DELIMITER $$
+CREATE PROCEDURE `truncate_words` ()
+BEGIN
+	DELETE FROM wordle_words;
+	DELETE FROM word_letters;
+	DELETE FROM words;
+	TRUNCATE wordle_words;
+	TRUNCATE word_letters;
+	TRUNCATE words;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `rebuild_wordle_words`;
 DELIMITER $$
 CREATE PROCEDURE `rebuild_wordle_words` ()
 BEGIN
