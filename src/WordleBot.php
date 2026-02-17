@@ -59,8 +59,11 @@ class WordleBot {
     }
     
     protected function getView(string $name, string $ext = 'php'): string {
+        $path = 'views/' . $name . '.' . $ext;
+        if (!file_exists($path)) return '';
+        
         ob_start();
-        include 'views/' . $name . '.' . $ext;
+        include $path;
         return ob_get_clean();        
     }
     
